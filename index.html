@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Via 🌸</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;600&family=Dancing+Script&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="envelope-overlay" class="envelope-overlay">
+        <div class="envelope-container" onclick="openEnvelope()">
+            <div class="envelope">
+                <div class="front"></div>
+                <div class="back"></div>
+                <div class="letter">
+                    <div class="heart"></div>
+                    <p>Untuk Via</p>
+                </div>
+                <div class="lid"></div>
+            </div>
+            <div class="instruction">Klik amplopnya yaww!</div>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden initially) -->
+    <main id="main-content" class="hidden">
+        <!-- Navbar / Theme Toggle -->
+        <nav>
+            <button id="theme-toggle" class="glass-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content glass-card">
+                <h1>Haloo Viaa...</h1>
+                <p class="subtitle">Makasih ya udah mau scan barcode ini</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery">
+            <h2 class="section-title">Siapanichh :3</h2>
+            <div class="grid-container">
+                <div class="grid-item floating" style="animation-delay: 0s;">
+                    <img src="assets/images/via1.jpg" alt="Foto Via 1">
+                </div>
+                <div class="grid-item floating" style="animation-delay: 1s;">
+                    <img src="assets/images/via2.jpg" alt="Foto Via 2">
+                </div>
+                <div class="grid-item floating" style="animation-delay: 2s;">
+                    <img src="assets/images/via3.jpg" alt="Foto Via 3">
+                </div>
+                <div class="grid-item floating" style="animation-delay: 3s;">
+                    <img src="assets/images/via4.jpg" alt="Foto Via 4">
+                </div>
+            </div>
+        </section>
+
+        <!-- Note Slide Section -->
+        <section class="note-slide">
+            <div class="note-paper glass-card">
+                <div class="pin"><i class="fas fa-thumbtack"></i></div>
+                <!-- Cute Stickers -->
+                <div class="sticker sticker-cat">🐱</div>
+                <div class="sticker sticker-star">⭐</div>
+
+                <h3>Untuk Kamu, Via</h3>
+                <p class="handwritten">
+                    Hai Via, mungkin ini bukan perpisahan yang sempurna, tapi aku harap website kecil ini bisa jadi
+                    kenangan manis buat kamu.
+                    Terima kasih sudah jadi bagian dari cerita ini. Sukses terus ya di tempat baru!
+                    Jangan pernah mau ngalah lagi yaa, pokokya harus percaya diri okeii?...
+                </p>
+                <div class="signature">- From Me -</div>
+            </div>
+        </section>
+
+        <!-- Message Section -->
+        <section class="message">
+            <div class="message-card glass-card">
+                <p>
+                    Setiap pertemuan pasti ada perpisahan, yang lalu biarlah berlalu.
+                    Semoga sukses di perjalanan barumu. Jangan lupa bahagia ya!
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content glass-card">
+                <p>Kurangi Insecure, Perbanyak Bersyukure :D</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Sakura Container -->
+    <div id="sakura-container"></div>
+
+    <!-- Audio -->
+    <audio id="bg-music" loop>
+        <source src="assets/images/lagu.mp3" type="audio/mpeg">
+        Browser kamu ga support audio nih :(
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,698 @@
+:root {
+    --primary-pink: #ffb7b2;
+    --secondary-pink: #ff9aa2;
+    --bg-light: #fff0f5;
+    --bg-dark: #2d1b2e;
+    --text-light: #4a4a4a;
+    --text-dark: #f0e6ea;
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="%23ff9aa2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 10 10, auto;
+}
+
+body.dark-mode {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+/* Glassmorphism Utilities */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 2rem;
+    margin: 1rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: inherit;
+    transition: all 0.3s ease;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Prevent tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1) rotate(10deg);
+}
+
+/* Envelope Overlay */
+.envelope-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 1s ease;
+    padding: 20px;
+    /* Prevent edge touching on small screens */
+    box-sizing: border-box;
+}
+
+.envelope-container {
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.envelope-container:hover {
+    transform: scale(1.05);
+}
+
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #ff9aa2;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.envelope::before {
+    /* Left flap */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid #ffb7b2;
+    border-top: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+    z-index: 3;
+}
+
+.envelope::after {
+    /* Right flap */
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 150px solid #ffb7b2;
+    border-top: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+    z-index: 3;
+}
+
+.envelope .lid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 100px solid #ffc1c1;
+    /* Slightly lighter */
+    z-index: 4;
+    transform-origin: top;
+    transition: transform 0.5s ease;
+}
+
+.envelope.open .lid {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope .letter {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background: white;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease 0.5s;
+    /* Delay for lid opening */
+    border-radius: 5px;
+    color: #ff9aa2;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.envelope.open .letter {
+    transform: translateY(-100px);
+    z-index: 5;
+}
+
+.envelope .heart {
+    width: 20px;
+    height: 20px;
+    background: #ff6b6b;
+    transform: rotate(45deg);
+    margin-bottom: 10px;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: rotate(45deg) scale(1);
+    }
+
+    15% {
+        transform: rotate(45deg) scale(1.3);
+    }
+
+    30% {
+        transform: rotate(45deg) scale(1);
+    }
+
+    45% {
+        transform: rotate(45deg) scale(1.3);
+    }
+
+    60% {
+        transform: rotate(45deg) scale(1);
+    }
+
+    100% {
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+.envelope .heart::before,
+.envelope .heart::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.envelope .heart::before {
+    top: -10px;
+    left: 0;
+}
+
+.envelope .heart::after {
+    top: 0;
+    left: -10px;
+}
+
+.instruction {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: var(--text-light);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Main Content */
+.hidden {
+    display: none;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 80px;
+    /* Increased space for footer on mobile */
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+nav {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+}
+
+.hero {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.hero h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    margin: 0;
+    background: linear-gradient(45deg, var(--secondary-pink), #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Gallery */
+.gallery {
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.section-title {
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    color: var(--secondary-pink);
+    margin-bottom: 2rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 10px;
+}
+
+.grid-item {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    aspect-ratio: 3/4;
+    /* Consistent aspect ratio */
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.grid-item:hover img {
+    transform: scale(1.1);
+}
+
+.grid-item::after {
+    content: '❤️';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.grid-item:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Floating Animation Variations */
+.floating {
+    animation: float 6s ease-in-out infinite;
+}
+
+.grid-item:nth-child(odd) {
+    animation-duration: 7s;
+}
+
+.grid-item:nth-child(even) {
+    animation-duration: 5s;
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Message Section */
+.message {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 90%;
+    /* Better mobile width */
+}
+
+.message p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Note Slide */
+.note-slide {
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.note-paper {
+    background: rgba(255, 255, 255, 0.95);
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+    border: 1px solid #eee;
+    padding: 3rem 2rem;
+    /* More padding for paper look */
+}
+
+.note-paper:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+.note-paper h3 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    color: var(--secondary-pink);
+    margin-bottom: 1rem;
+}
+
+.handwritten {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+.signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2rem;
+    text-align: right;
+    margin-top: 1rem;
+    color: #888;
+}
+
+.pin {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+/* Cute Stickers */
+.sticker {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.8;
+    animation: wiggle 3s ease-in-out infinite;
+    z-index: 10;
+    pointer-events: none;
+    /* Let clicks pass through */
+}
+
+.sticker-cat {
+    top: -25px;
+    right: -15px;
+    transform: rotate(15deg);
+}
+
+.sticker-star {
+    bottom: -10px;
+    left: -10px;
+    font-size: 2rem;
+    color: #ffd700;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(15deg);
+    }
+
+    50% {
+        transform: rotate(-5deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Dark Mode Adjustments for Note */
+body.dark-mode .note-paper {
+    background: rgba(45, 27, 46, 0.95);
+    border-color: #444;
+}
+
+body.dark-mode .handwritten {
+    color: #ddd;
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+}
+
+.footer-content {
+    margin: 0;
+    padding: 1rem;
+    border-radius: 20px 20px 0 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-mode .footer-content {
+    background: rgba(45, 27, 46, 0.8);
+}
+
+/* Sakura Petals */
+.sakura {
+    position: fixed;
+    top: -10%;
+    background-color: #ffb7b2;
+    border-radius: 100% 0 100% 0;
+    opacity: 0.6;
+    z-index: -1;
+    animation: fall linear infinite, sway 2s ease-in-out infinite alternate;
+}
+
+@keyframes fall {
+    to {
+        transform: translate(100px, 110vh) rotate(360deg);
+    }
+}
+
+@keyframes sway {
+    from {
+        margin-left: -10px;
+    }
+
+    to {
+        margin-left: 10px;
+    }
+}
+
+/* Cursor Trail */
+.heart-trail {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.2rem;
+    animation: fadeUp 1s ease-out forwards;
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.5);
+    }
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on tablet/large phone */
+        padding: 10px;
+    }
+
+    .note-paper {
+        transform: rotate(0deg);
+        /* Remove rotation on mobile for better fit */
+        padding: 2rem 1.5rem;
+    }
+
+    .note-paper:hover {
+        transform: scale(1.01);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .envelope {
+        width: 260px;
+        height: 170px;
+    }
+
+    .envelope::before,
+    .envelope::after {
+        border-left-width: 130px;
+        border-right-width: 130px;
+    }
+
+    .envelope .lid {
+        border-left-width: 130px;
+        border-right-width: 130px;
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr;
+        /* 1 column on small screens */
+    }
+
+    .sticker {
+        font-size: 2rem;
+    }
+
+    .sticker-cat {
+        top: -20px;
+        right: -10px;
+    }
+
+    .sticker-star {
+        bottom: -5px;
+        left: -5px;
+    }
+
+    .glass-card {
+        padding: 1.5rem 1rem;
+        margin: 0.5rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+    }
+}
